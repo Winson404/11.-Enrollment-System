@@ -1,150 +1,126 @@
-<title>Dashboard | TRHS</title>
-
-<?php include 'navbar.php'; ?>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-
-
-          
-          <!-- ./col -->
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-              <div class="inner">
-                <?php
-                  $student = mysqli_query($conn, "SELECT stud_Id from student");
-                  $row_student = mysqli_num_rows($student);
-                 ?>
-                <h3><?php echo $row_student; ?></h3>
-
-                <p>Student lists</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="student.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-
-
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-info">
-              <div class="inner">
-                <?php
-                  $teacher = mysqli_query($conn, "SELECT teacher_Id from teacher");
-                  $row_teacher = mysqli_num_rows($teacher);
-                 ?>
-                <h3><?php echo $row_teacher; ?></h3>
-
-                <p>Teacher lists</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="teacher.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-
-
-
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-              <div class="inner">
-                <?php
-                  $subject = mysqli_query($conn, "SELECT sub_Id from subject");
-                  $row_subject = mysqli_num_rows($subject);
-                 ?>
-                <h3><?php echo $row_subject; ?></h3>
-
-                <p>Subjects</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="subject.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-
-
-
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-danger">
-              <div class="inner">
-                <?php
-                  $announcement = mysqli_query($conn, "SELECT announce_Id from announcement");
-                  $row_announcement = mysqli_num_rows($announcement);
-                 ?>
-                <h3><?php echo $row_announcement; ?></h3>
-
-                <p>Announcements</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="announcement.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-
-
-
-          <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-primary">
-              <div class="inner">
-                <?php
-                  $admin = mysqli_query($conn, "SELECT admin_Id from admin");
-                  $row_admin = mysqli_num_rows($admin);
-                 ?>
-                <h3><?php echo $row_admin; ?></h3>
-
-                <p>Administrators</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person-add"></i>
-              </div>
-              <a href="admin.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-          </div>
-         
-
-
+<title>Enrollment System | Dashboard</title>
+<?php
+require_once 'sidebar.php';
+?>
+<div class="content-wrapper">
+  <div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Dashboard</h1>
         </div>
-        <!-- /.row -->
-        <!-- Main row -->
-        
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+          </ol>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- /.content-wrapper -->
- 
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
 
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-primary">
+            <div class="inner">
+              <?php $tbl_user=$db->getUsers(); ?>
+              <h3><?= $tbl_user->num_rows > 0 ? $tbl_user->num_rows : "0"; ?></h3>
+              <p>Administrators</p>
+            </div>
+            <div class="icon">
+              <i class="fa-solid fa-users-gear"></i>
+            </div>
+            <a href="admin.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
 
- <?php include 'footer.php'; ?>
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-info">
+            <div class="inner">
+              <?php $tbl_stud=$db->getStudents(); ?>
+              <h3><?= $tbl_stud->num_rows > 0 ? $tbl_stud->num_rows : "0"; ?></h3>
+              <p>Student</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <a href="users.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <?php $tbl_instructor=$db->getInstructor(); ?>
+              <h3><?= $tbl_instructor->num_rows > 0 ? $tbl_instructor->num_rows : "0"; ?></h3>
+              <p>Instructors</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <a href="instructor.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <?php $tbl_subject=$db->getSubject(); ?>
+              <h3><?= $tbl_subject->num_rows > 0 ? $tbl_subject->num_rows : "0"; ?></h3>
+              <p>Subject</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <a href="subject.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-primary">
+            <div class="inner">
+              <?php $tbl_course=$db->getCourse(); ?>
+              <h3><?= $tbl_course->num_rows > 0 ? $tbl_course->num_rows : "0"; ?></h3>
+              <p>Courses</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <a href="course.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-info">
+            <div class="inner">
+              <?php $tbl_dept=$db->getDepartment(); ?>
+              <h3><?= $tbl_dept->num_rows > 0 ? $tbl_dept->num_rows : "0"; ?></h3>
+              <p>Department</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <a href="department.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <?php $tbl_enroll=$db->getEnrolledStudents(); ?>
+              <h3><?= $tbl_enroll->num_rows > 0 ? $tbl_enroll->num_rows : "0"; ?></h3>
+              <p>Enrolled Students</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <a href="enrollment.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  <?php require_once '../includes/footer.php'; ?>

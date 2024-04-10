@@ -1,153 +1,444 @@
-<?php 
-    include 'header.php'; 
-    include 'login.php';
-?>
+<title>Enrollment System | Register</title>
+<?php require_once 'header.php';?>
 
-<!-- ======= Appointment Section ======= -->
-    <section id="register" class="appointment section-bg">
-      <div class="container" data-aos="fade-up">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" >
+    
+    <!-- Main content -->
+    <div class="content">
+      <div class="container">
+        <div class="row d-flex justify-content-center">
 
-        <div class="section-title">
-          <h2>Patient registration</h2>
-          <?php if(isset($_SESSION['success'])) { ?> 
-              <h5 class="alert text-success" role="alert"><b><?php echo $_SESSION['success']; ?></b></h5> 
-          <?php unset($_SESSION['success']); } ?>
-
-
-          <?php if(isset($_SESSION['invalid']) && isset($_SESSION['error'])) { ?>
-              <h5 class="alert text-danger" role="alert"><b><?php echo $_SESSION['invalid']; ?> <?php echo $_SESSION['error']; ?></b></h5>
-          <?php unset($_SESSION['invalid']);  unset($_SESSION['error']);  } ?>
-
-
-          <?php  if(isset($_SESSION['exists'])) { ?>
-              <h5 class="alert text-danger" role="alert"><b><?php echo $_SESSION['exists']; ?></b></h5>
-          <?php unset($_SESSION['exists']); } ?>
-        </div>
-
-        <form action="register_code.php" method="post" class="bg-body pb-4" enctype="multipart/form-data">
-          <div class="row bg-body p-3">
-            <div class="col-md-4 form-group">
-              <input type="text" class="form-control" placeholder="First name" name="firstname" required onkeyup="lettersOnly(this)">
+          <div class="col-lg-10 mt-5">
+            <form id="AddStudentForm" method="POST" enctype="multipart/form-data">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">Fill-in the required fields below</h3>
+            <div class="card-tools mt-2">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+              </button>
             </div>
-            <div class="col-md-3 form-group">
-              <input type="text" class="form-control" placeholder="Middle name" name="middlename" required onkeyup="lettersOnly(this)">
-            </div>
-            <div class="col-md-3 form-group">
-              <input type="text" class="form-control" placeholder="Last name" name="lastname" required onkeyup="lettersOnly(this)">
-            </div>
-            <div class="col-md-2 form-group">
-              <input type="text" class="form-control" placeholder="Suffix" name="suffix">
-            </div>
-            <div class="col-md-3 form-group mt-3">
-              <select name="gender" class="form-select" required>
-                <option value="">Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-            </div>
-            <div class="col-md-3 form-group mt-3">
-              <input type="date" class="form-control"  placeholder="Date of birth" name="dob" required>
-            </div>
-            <div class="col-md-2 form-group mt-3">
-              <input type="number" class="form-control" placeholder="Age" name="age" required>
-            </div>
-          
-            <div class="col-md-4 form-group mt-3">
-              <input type="number" class="form-control" placeholder="9123456789" name="contact"required>
-            </div>
-            <div class="col-md-4 form-group mt-3">
-              <input type="email" class="form-control" placeholder="mail@email.com" name="email"required>
-            </div>
-            <div class="col-md-4 form-group mt-3">
-              <input type="password" class="form-control" placeholder="Password" name="password" id="newpassword" required>
-            </div>
-            <div class="col-md-4 form-group mt-3">
-              <input type="password" class="form-control" placeholder="Confirm password" name="cpassword" id="confirmpassword" onkeyup="validate_password()" required>
-            </div>
-            <div class="col-md-12 form-group mt-3">
-              <textarea class="form-control" name="address" rows="3" placeholder="Address"></textarea>
-            </div>
-            <div class="col-md-6 form-group mt-3">
-              <input type="file" class="form-control" name="fileToUpload" onchange="getImagePreview(event)" required>
-              <p class="mt-3">Already have an account? <a href="" data-bs-toggle="modal" data-bs-target="#memberlogin">Click here!</a></p>
-            </div>
-            <div class="form-group col-lg-6 mb-4">
-                    <div class="form-group" id="preview">
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="row">                   
+                  <div class="col-lg-4 col col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                      <span class="text-dark"><b>Type of Student</b></span>
+                      <select class="form-control" name="stud_type" id="stud_type" required onchange="toggleSchoolFields()">
+                          <option selected disabled value="">Select type</option>
+                          <option value="Old Student">Old Student</option>
+                          <option value="New Student">New Student</option>
+                          <option value="Returnee Student">Returnee Student</option>
+                          <option value="Transferee Student">Transferee Student</option>
+                      </select>
                     </div>
+                  </div>
+                  <div class="col-lg-4 col col-md-6 col-sm-6 col-12">
+                    <div class="form-group">
+                      <span class="text-dark"><b>Student ID #</b></span>
+                      <input type="text" class="form-control" name="student_ID" id="student_ID" placeholder="Enter Student ID here" required>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6 col-sm-12 col-12">
+                    <div class="form-group">
+                        <span class="text-dark text-bold">Academic year</span>
+                        <select name="year_ID" id="year_ID" class="form-control" required>
+                          <option value="" selected disabled>Select academic year</option>
+                          <?php
+                            $acad = $db->getActiveAcadYear();
+                            if($acad->num_rows > 0) {
+                              while($row2 = $acad->fetch_assoc()) {
+                                echo '<option value="'.$row2['year_ID'].'" selected>'.$row2['year_from'].'-'.$row2['year_to'].'</option>';
+                              }
+                            } else {
+                              echo '<option value="" selected disabled>No record found</option>';
+                            }
+                          ?>
+                        </select>
+                    </div>
+                  </div>
                 </div>
-            
-          </div>
+              </div>
 
-         <!--  <div class="form-group mt-3">
-            
-          </div>
-          <div class="my-3">
-            <div class="loading">Loading</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your appointment request has been sent successfully. Thank you!</div>
-          </div> -->
-          <div class="text-center"><button class="btn btn-primary" type="submit" name="create_user">Register</button></div>
-        </form>
+              <div class="col-lg-12 mt-1 mb-2">
+                <a class="h5 text-primary"><b>Basic information</b></a>
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-lg-4 col col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>First name</b></span>
+                  <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First name" onkeyup="lettersOnly(this)" required>
+                </div>
+              </div>
+              <div class="col-lg-3 col col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Middle name</b></span>
+                  <input type="text" class="form-control"  name="middlename" id="middlename" placeholder="Middle name" onkeyup="lettersOnly(this)">
+                </div>
+              </div>
+              <div class="col-lg-3 col col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Last name</b></span>
+                  <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last name" onkeyup="lettersOnly(this)" required>
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Ext/Suffix</b></span>
+                  <input type="text" class="form-control" name="suffix" id="suffix" placeholder="Ext/Suffix">
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Sex</b></span>
+                  <select class="form-control" name="gender" id="gender" required>
+                    <option selected disabled value="">Select sex</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Date of Birth</b></span>
+                  <input type="date" class="form-control" name="birthdate" id="birthdate" onchange="calculateAge()" max="<?php echo date('Y-m-d'); ?>" required>
+                </div>
+              </div>
+              <div class="col-lg-7 col-md-6 col-sm-12 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Complete Address</b></span>
+                  <textarea class="form-control" name="address" id="address" placeholder="Complete Address" cols="30" rows="1" required></textarea>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Citizenship</b></span>
+                  <input type="text" class="form-control"  name="citizenship" id="citizenship" placeholder="Citizenship" required>
+                </div>
+              </div>
+              
+              <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
+                <a class="h5 text-primary"><b>Contact details</b></a>
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Contact number</b></span>
+                  <div class="input-group">
+                    <div class="input-group-text">+63</div>
+                    <input type="tel" class="form-control" pattern="[7-9]{1}[0-9]{9}" id="contact" name="contact" placeholder = "9123456789" maxlength="10" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Email</b></span>
+                  <input type="email" class="form-control" name="email" id="email" placeholder="email@gmail.com" onkeydown="validation()" onkeyup="validation()" required>
+                  <small id="text" style="font-style: italic;"></small>
+                </div>
+              </div>
+              
+              
+              <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
+                <a class="h5 text-primary"><b>School information</b></a>
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>General Weighted Average</b></span>
+                  <input type="text" class="form-control" name="GWA" id="GWA" placeholder="General Weighted Average">
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Year level</b></span>
+                  <select name="year_level_ID" id="year_level_ID" class="form-control" required>
+                    <option value="" selected disabled>Select level</option>
+                    <?php
+                      $level = $db->getLevel();
+                      if($level->num_rows > 0) {
+                        while($row2 = $level->fetch_assoc()) {
+                          echo '<option value="'.$row2['level_ID'].'">'.$row2['level'].'</option>';
+                        }
+                      } else {
+                        echo '<option value="" selected disabled>No record found</option>';
+                      }
+                    ?>
+                  </select>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-6 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Course</b></span>
+                  <select name="course_ID" id="course_ID" class="form-control" required>
+                    <option value="" selected disabled>Select course</option>
+                    <?php
+                      $course = $db->getCourse();
+                      if($course->num_rows > 0) {
+                        while($row2 = $course->fetch_assoc()) {
+                          echo '<option value="'.$row2['course_ID'].'">'.$row2['course_name'].'</option>';
+                        }
+                      } else {
+                        echo '<option value="" selected disabled>No record found</option>';
+                      }
+                    ?>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12" id="school_fields" style="display: none;">
+                  <div class="form-group">
+                      <span class="text-dark"><b>Past Name of School</b></span>
+                      <input type="text" class="form-control" name="school_name" id="school_name" placeholder="Name of School">
+                  </div>
+                  <div class="form-group">
+                      <span class="text-dark"><b>Past School Address</b></span>
+                      <input type="text" class="form-control" name="school_address" id="school_address" placeholder="School Address">
+                  </div>
+              </div>
 
+
+              <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
+                <a class="h5 text-primary"><b>Contacts in case of emergency</b></a>
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-lg-7 col-md-7 col-sm-12 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Full name</b></span>
+                  <input type="text" class="form-control" name="emergency_contact_name" id="emergency_contact_name" placeholder="Full name" required>
+                </div>
+              </div>
+              <div class="col-lg-5 col-md-5 col-sm-12 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Relationship to student</b></span>
+                  <input type="text" class="form-control" name="relationship_to_student" id="relationship_to_student" placeholder="Relationship to student" required>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Contact number</b></span>
+                  <div class="input-group">
+                    <div class="input-group-text">+63</div>
+                    <input type="tel" class="form-control" pattern="[7-9]{1}[0-9]{9}" id="emergency_contact" name="emergency_contact" placeholder = "9123456789" maxlength="10" required>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
+                <a class="h5 text-primary"><b>Parents/Guardian information</b></a>
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-lg-7 col-md-7 col-sm-12 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Full name</b></span>
+                  <input type="text" class="form-control" name="parent_name" id="parent_name" placeholder="Full name" required>
+                </div>
+              </div>
+              <div class="col-lg-5 col-md-5 col-sm-12 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Relationship to student</b></span>
+                  <input type="text" class="form-control" name="parent_relationship" id="parent_relationship" placeholder="Relationship to student" required>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Contact number</b></span>
+                  <div class="input-group">
+                    <div class="input-group-text">+63</div>
+                    <input type="tel" class="form-control" pattern="[7-9]{1}[0-9]{9}" id="parent_contact" name="parent_contact" placeholder = "9123456789" maxlength="10" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-12 mt-3 mb-2 col-md-12 col-sm-12 col-12">
+                <a class="h5 text-primary"><b>Account password</b></a>
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div class="form-group">
+                      <span class="text-dark"><b>Password</b></span>
+                      <div class="input-group">
+                          <input type="password" class="form-control" name="password" id="password" placeholder="Password" minlength="8" style="text-transform: none;" required>
+                          <div class="input-group-append">
+                              <span class="input-group-text" id="eye-toggle-password" onclick="togglePasswordVisibility('password')">
+                                  <i class="fa fa-eye" aria-hidden="true"></i>
+                              </span>
+                          </div>
+                      </div>
+                      <span id="password-message" class="text-bold" style="font-style: italic; font-size: 12px; color: #e60000;"></span>
+                  </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div class="form-group">
+                      <span class="text-dark"><b>Confirm password</b></span>
+                      <div class="input-group">
+                          <input type="password" class="form-control" name="cpassword" id="cpassword" placeholder="Retype password" onkeyup="validate_confirm_password()" minlength="8" style="text-transform: none;" required>
+                          <div class="input-group-append">
+                              <span class="input-group-text" id="eye-toggle-cpassword" onclick="togglePasswordVisibility('cpassword')">
+                                  <i class="fa fa-eye" aria-hidden="true"></i>
+                              </span>
+                          </div>
+                      </div>
+                      <small id="wrong_pass_alert" class="text-bold" style="font-style: italic; font-size: 12px;"></small>
+                  </div>
+              </div>
+              
+              <div class="col-lg-12 mt-3">
+                <a class="h5 text-primary"><b>Documents</b></a>
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm6 col-12">
+                <div class="form-group">
+                  <span class="text-dark"><b>Upload documents (Birth certificate, Card and etc.)</b></span>
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="documents" name="documents[]" multiple required>
+                      <label class="custom-file-label" for="documents">Choose file</label>
+                    </div>
+                   <!--  <div class="input-group-append">
+                      <span class="input-group-text">Upload</span>
+                    </div> -->
+                  </div>
+                  <p class="help-block text-danger">Max. 500KB</p>
+                </div>
+              </div>
+            </div>
+            <!-- END ROW -->
+          </div>
+          <div class="card-footer">
+              <div class="row">
+                <div class="col-8">
+                  <div class="icheck-primary">
+                    <p class="m-0">Already have an account? <a href="login.php">Click here!</a></p>
+                    <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                    <label for="agreeTerms">
+                     I agree to the <a href="#" data-toggle="modal" data-target="#terms-conditions">Terms and Conditions</a>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-4 d-flex justify-content-end">
+                  <!-- <a href="login.php" class="btn btn-secondary btn-sm mr-2"><i class="fas fa-times"></i> Cancel</a> -->
+                  <button type="submit" class="btn btn-primary btn-sm" id="submit_button"><i class="fas fa-check"></i> Submit</button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </form>
+          </div>
+        </div>
       </div>
-    </section><!-- End Appointment Section -->
+    <!-- /.content -->
+    </div>
+  </div>
+  <!-- /.content-wrapper -->
 
 
+  <div class="modal fade" id="terms-conditions" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+         <div class="modal-header bg-light">
+            <img src="images/logo.jpg" alt="" class="d-block m-auto img-circle img-fluid shadow-sm" width="100">
+        </div>
+        <div class="modal-body text-justify">
+            <h5 class="modal-title text-center mb-4" id="exampleModalLabel">Terms and Conditions</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vel metus id elit mollis blandit nec vel libero. In ut facilisis dolor. Donec efficitur velit id ligula egestas, nec volutpat sapien congue.</p>
+            <p>Curabitur ullamcorper feugiat velit, a egestas urna facilisis non. Sed in commodo nisl. Fusce vehicula dui at ligula blandit, sit amet dignissim justo volutpat. Integer sagittis, libero sit amet fermentum sagittis, neque dui hendrerit dolor.</p>
+            <!-- Add more terms and conditions text as needed -->
+        </div>
+        <div class="modal-footer alert-light">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <?php include 'footer.php'; ?>
 
-
- 
 <script>
-   function getImagePreview(event)
-  {
-    var image=URL.createObjectURL(event.target.files[0]);
-    var imagediv= document.getElementById('preview');
-    var newimg=document.createElement('img');
-    var text=document.createElement('p');
-    text.innerHTML='Image preview';
-    text.style['position']="relative";
-    text.style['margin-left']="215px";
-    text.style['margin-top']="10px";
-    text.style['font-weight']="bold";
-    imagediv.innerHTML='';
-    newimg.src=image;
-    newimg.width="90";
-    newimg.height="90";
-    newimg.style['border-radius']="50%";
-    newimg.style['display']="block";
-    newimg.style['margin-left']="auto";
-    newimg.style['margin-right']="auto";
-    newimg.style['box-shadow']="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px";
-    imagediv.appendChild(newimg);
-    imagediv.appendChild(text);
-  }
+    function toggleSchoolFields() {
+        var studType = document.getElementById("stud_type").value;
+        var schoolFields = document.getElementById("school_fields");
+        var schoolNameInput = document.getElementById("school_name");
+        var schoolAddressInput = document.getElementById("school_address");
 
-</script>
-
-<script>
-    function validate_password() {
-
-      var pass = document.getElementById('newpassword').value;
-      var confirm_pass = document.getElementById('confirmpassword').value;
-      if (pass != confirm_pass) {
-        document.getElementById('wrong_pass_alert').style.color = 'red';
-        document.getElementById('wrong_pass_alert').innerHTML = 'X Password did not matched!';
-        document.getElementById('register').disabled = true;
-        document.getElementById('register').style.opacity = (0.4);
-      } else {
-        document.getElementById('wrong_pass_alert').style.color = 'green';
-        document.getElementById('wrong_pass_alert').innerHTML = '✓ Password matched!';
-        document.getElementById('register').disabled = false;
-        document.getElementById('register').style.opacity = (1);
-      }
+        if (studType == "New Student" || studType == "Transferee Student") {
+            schoolFields.style.display = "block";
+            schoolNameInput.setAttribute("required", "");
+            schoolAddressInput.setAttribute("required", "");
+        } else {
+            schoolFields.style.display = "none";
+            schoolNameInput.removeAttribute("required");
+            schoolAddressInput.removeAttribute("required");
+        }
     }
+  $(document).ready(function() {
+    // Add event listener to form submission
+    $('#AddStudentForm').submit(function(e) {
+        e.preventDefault();
 
+        // Get form data
+        var formData = new FormData($(this)[0]);
 
+        // Add action parameter
+        formData.append('action', 'AddStudentForm');
 
-
-    function lettersOnly(input) {
-      var regex = /[^a-z ]/gi;
-      input.value = input.value.replace(regex, "");
-    }
+        $.ajax({
+            type: 'POST',
+            url: 'includes/processes.php',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response.success) {
+                    Swal.fire({
+                        title: "Success",
+                        text: response.message,
+                        icon: "success",
+                        timer: 1500,
+                        timerProgressBar: true,
+                        showConfirmButton: true
+                    }).then(function() {
+                        window.location.href = "register.php";
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: response.message,
+                        icon: "error",
+                        timer: 1500,
+                        timerProgressBar: true,
+                        showConfirmButton: true
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    });
+  
+});
 
 </script>

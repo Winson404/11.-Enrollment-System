@@ -1,94 +1,89 @@
 <?php 
-  session_start();
-  include 'config.php';
-  if(isset($_SESSION['admin_Id'])) {
+    require_once 'includes/db_config.php';
+    if(isset($_SESSION['id']) && isset($_SESSION['user_type'])) {
       header('Location: Admin/dashboard.php');
-  } elseif(isset($_SESSION['stud_Id'])) {
-      header('Location: Student/dashboard.php');
-  } else {
+    }
+    require_once 'includes/classes.php';
+    $db = new db_class();
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enrollment System</title>
+    <!---FAVICON ICON FOR WEBSITE--->
+    <link rel="shortcut icon" type="image/png" href="images/logo.jpg">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="stylesheet" href="dist/css/sweetalert2.min.css">
+    <script src="dist/js/sweetalert2.all.min.js"></script>
 
-  <title>TRHS</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="images/logo.png" rel="icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-  <link href="assets-homepage/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="assets-homepage/vendor/animate.css/animate.min.css" rel="stylesheet">
-  <link href="assets-homepage/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets-homepage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets-homepage/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets-homepage/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets-homepage/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets-homepage/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Template Main CSS File -->
-  <link href="assets-homepage/css/style.css" rel="stylesheet">
-</head>
-
-<body>
-
-  <!-- ======= Top Bar ======= -->
-  <!-- <div id="topbar" class="d-flex align-items-center fixed-top">
-    <div class="container d-flex align-items-center justify-content-center justify-content-md-between">
-      <div class="align-items-center d-none d-md-flex">
-        <i class="bi bi-clock"></i> Monday - Saturday, 8AM to 10PM
-      </div>
-      <div class="d-flex align-items-center">
-        <i class="bi bi-phone"></i> Call us now +1 5589 55488 55
-      </div>
-    </div>
-  </div> -->
-
-  <!-- ======= Header ======= -->
-  <header id="header">
-  <!-- <header id="header" class="fixed-top"> -->
-    <div class="container d-flex align-items-center">
-
-      <a href="index.html" class="logo me-auto">TRHS</a>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <h1 class="logo me-auto"><a href="index.html">Medicio</a></h1> -->
-
-     <!--  <nav id="navbar" class="navbar order-last order-lg-0">
-        <ul>
-          <li><a class="nav-link scrollto " href="index.php?#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="index.php?#about">About Us</a></li>
-          <li><a class="nav-link scrollto" href="index.php?#footer">Contact Us</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav> -->
-      <a type="button" class="appointment-btn scrollto" data-bs-toggle="modal" data-bs-target="#memberlogin"><span class="d-none d-md-inline">Login</span></a>
-
-    </div>
-  </header><!-- End Header -->
-
-<script>
-  //-----------------------------ALERT TIMEOUT-------------------------//
-  $(document).ready(function() {
-      setTimeout(function() {
-          $('.alert').hide();
-      } ,6000);
-  }
-  );
-//-----------------------------END ALERT TIMEOUT---------------------//
-</script>
-
-<?php } ?>
+    <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .form-control:not([type="email"]):not([type="password"]) {
+      text-transform: capitalize;
+    }
+    </style>
+  </head>
+  <body class="hold-transition layout-top-nav">
+    <div class="wrapper">
+      <!-- Navbar -->
+      <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+        <div class="container">
+          <a href="index.php" class="navbar-brand">
+            <img src="images/logo.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+            <span class="brand-text font-weight-light">Web-Based Enrollment System for St.Paul Colleges Foundation Inc.</span>
+          </a>
+          <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+            <!-- Left navbar links -->
+            <!-- <ul class="navbar-nav">
+              <li class="nav-item">
+                <a href="index3.html" class="nav-link">Home</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
+                <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                  <li><a href="#" class="dropdown-item">Some action </a></li>
+                  <li><a href="#" class="dropdown-item">Some other action</a></li>
+                </ul>
+              </li>
+            </ul> -->
+            <!-- SEARCH FORM -->
+            <!-- <form class="form-inline ml-0 ml-md-3">
+              <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                  <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </form> -->
+          </div>
+          <!-- Right navbar links -->
+          <!-- <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+            <?php 
+              $current_page = basename($_SERVER['PHP_SELF']);
+              if ($current_page !== 'login.php') { ?>
+                <li class="nav-item">
+                    <a href="login.php" class="nav-link">Login</a>
+                </li>
+            <?php } ?>
+          </ul> -->
+        </div>
+      </nav>

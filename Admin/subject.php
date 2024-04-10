@@ -1,135 +1,260 @@
-<title>Subjects | TRHS</title>
-
-
+<title>Subject records</title>
 <?php 
-
-  include 'navbar.php'; 
+    require_once 'sidebar.php'; 
 ?>
-
-   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <div class="content-header">
       <div class="container-fluid">
-        <div class="row">
+        <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Subjects</h1>
+            <h1 class="m-0">Subject</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active">Subjects</li>
+              <li class="breadcrumb-item active">Subject records</li>
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
+      </div>
+    </div>
     <section class="content">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <div class="d-flex">
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_user"><i class="bi bi-plus-circle"></i> Add</button>
+        <div class="card">
+          <div class="card-header p-2">
+            <a href="subject_mgmt.php?page=create" class="btn btn-sm btn-primary ml-2"><i class="fa-sharp fa-solid fa-square-plus"></i> New Subject</a>
 
-                  <?php if(isset($_SESSION['success'])) { ?> 
-                      <h3 class="alert card-title position-absolute py-2 alert-success rounded p-1" role="alert" style="right: 20px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;"><?php echo $_SESSION['success']; ?></h3>
-                  <?php unset($_SESSION['success']); } ?>
-
-
-                  <?php if(isset($_SESSION['invalid']) && isset($_SESSION['error'])) { ?>
-                      <h3 class="alert card-title position-absolute py-2 alert-danger rounded p-1" role="alert" style="right: 20px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;"><?php echo $_SESSION['invalid']; ?> <?php echo $_SESSION['error']; ?></h3>
-                  <?php unset($_SESSION['invalid']);  unset($_SESSION['error']);  } ?>
-
-
-                  <?php  if(isset($_SESSION['exists'])) { ?>
-                      <h3 class="alert card-title position-absolute py-2 alert-danger rounded p-1" role="alert" style="right: 20px; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;"><?php echo $_SESSION['exists']; ?></h3>
-                  <?php unset($_SESSION['exists']); } ?>
-                  
-                </div>
-              </div>
-              
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th>Subject name</th>
-                    <th>Subject code</th>
-                    <th>Instructor</th>
-                    <th>Date Added</th>
-                    <th>Tools</th>
-                  </tr>
-                  </thead>
-                  <tbody id="users_data">
-                    <tr>
-                      <?php 
-                        $sql = mysqli_query($conn, "SELECT * FROM subject JOIN teacher ON subject.sub_teacher_Id=teacher.teacher_Id");
-                        if(mysqli_num_rows($sql) > 0) {
-                          while ($row = mysqli_fetch_array($sql)) {
-                      ?>
-                        <td><?php echo $row['sub_name']; ?></td>
-                        <td><?php echo $row['sub_code']; ?></td>
-                        <td><?php echo ' '.$row['fname'].' '.$row['mname'].' '.$row['lname'].' '.$row['suffix'].' '; ?></td>
-                        <td><?php echo $row['date_added']; ?></td>
-                        <td>
-                            <div class="dropdown dropleft">
-                                  <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false"> Actions </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                      <button type="button" class="btn btn-primary dropdown-item" data-toggle="modal" data-target="#update<?php echo $row['sub_Id']; ?>">Update</button>
-                                      <button type="button" class="btn btn-primary dropdown-item" data-toggle="modal" data-target="#delete<?php echo $row['sub_Id']; ?>">Delete</button>
-                                </div>
-                            </div>
-                        </td> 
-                    </tr>
-
-                    <?php include 'subject_update_delete.php'; } ?>
-                    <?php } else { ?>
-
-                        <tr>
-                          <td colspan="100%" class="text-center">No record found</td>
-                        </tr>
-
-                    <?php } ?>
-
-                  </tbody>
-                  <tfoot>
-                      <tr>
-                        <th>Subject name</th>
-                        <th>Subject code</th>
-                        <th>Instructor</th>
-                        <th>Date Added</th>
-                        <th>Tools</th>
-                      </tr>
-                  </tfoot>
-                </table>
-              </div>
-              <!-- /.card-body -->
+            <div class="card-tools mr-1 mt-3">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+              </button>
             </div>
-            <!-- /.card -->
           </div>
-          <!-- /.col -->
+          <div class="card-body">
+            <table id="example1" class="table table-bordered table-hover text-sm">
+              <thead>
+                  <th>SUBJECT NO</th>
+                  <th>DESCRIPTION TITLE</th>
+                  <th>UNITS</th>
+                  <th>OFFER CODE</th>
+                  <th>INSTRUCTOR</th>
+                  <!-- <th>OTHER DETAILS</th> -->
+                  <!-- <th>DATE ADDED</th> -->
+                  <th>ACTIONS</th>
+              </thead>
+              <tbody id="users_data">
+                <?php
+                  $acad_year = $db->getSubject();
+                  while($row2 = $acad_year->fetch_assoc()) {
+                ?>
+                <tr>
+                  <td><?= ucwords($row2['sub_no']) ?></td>
+                  <td><?= ucwords($row2['descriptive_title']) ?></td>
+                  <td><?= $row2['units'] ?></td>
+                  <td><?= $row2['offer_code'] ?></td>
+                  <td><?= ucwords($row2['firstname'].' '.$row2['lastname']) ?></td>
+                  <!-- <td>
+                    Department: <?= $row2['dept_name'] ?> <br>
+                    Semester: <?= $row2['semester'] ?>
+                  </td> -->
+                  <!-- <td><?= date("F d, Y", strtotime($row2['date_created'])) ?></td> -->
+                  <td>
+                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#details<?php echo $row2['sub_ID']; ?>"><i class="fas fa-eye"></i> View</button>
+                    <a href="subject_mgmt.php?page=<?php echo $row2['sub_ID']; ?>" type="button" class="btn btn-info btn-sm"><i class="fas fa-pencil-alt"></i> Edit</a>
+                    <button type="button" class="btn btn-danger btn-sm delete-subject" data-subject-id="<?= $row2['sub_ID']; ?>"><i class="fas fa-trash"></i> Delete</button>
+                  </td>
+                </tr>
+
+                <!-- VIEW MODAL -->
+                    <div class="modal fade" id="details<?php echo $row2['sub_ID']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            Subject details
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa-solid fa-circle-xmark"></i></span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <h6 class="mb-0">Academic Year</h6>
+                              </div>
+                              <div class="col-sm-8 text-secondary">
+                                <?= $row2['year_from'].' '.$row2['year_to'] ?>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <h6 class="mb-0">Semester</h6>
+                              </div>
+                              <div class="col-sm-8 text-secondary">
+                                <?= ucwords($row2['semester']) ?>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <h6 class="mb-0">Course</h6>
+                              </div>
+                              <div class="col-sm-8 text-secondary">
+                                <?= ucwords($row2['course_name']) ?>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <h6 class="mb-0">Year level</h6>
+                              </div>
+                              <div class="col-sm-8 text-secondary">
+                                <?= ucwords($row2['level']) ?>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <h6 class="mb-0">Subject No</h6>
+                              </div>
+                              <div class="col-sm-8 text-secondary">
+                                <?= ucwords($row2['sub_no']) ?>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <h6 class="mb-0">Descriptive title</h6>
+                              </div>
+                              <div class="col-sm-8 text-secondary">
+                                <?= ucwords($row2['descriptive_title']) ?>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <h6 class="mb-0">Units</h6>
+                              </div>
+                              <div class="col-sm-8 text-secondary">
+                                <?= $row2['units'] ?>
+                              </div>
+                            </div>
+                            <hr>
+                            
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <h6 class="mb-0">Offer Code</h6>
+                              </div>
+                              <div class="col-sm-8 text-secondary">
+                                <?= $row2['offer_code'] ?>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <h6 class="mb-0">Assigned Instructor</h6>
+                              </div>
+                              <div class="col-sm-8 text-secondary">
+                                <?= ucwords($row2['firstname'].' '.$row2['middlename']) ?>
+                              </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                              <div class="col-sm-4">
+                                <h6 class="mb-0">Date created</h6>
+                              </div>
+                              <div class="col-sm-8 text-secondary">
+                                <?= date("F d, Y", strtotime($row2['date_created'])) ?>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                <?php } ?>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <!-- /.row -->
+
+        <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header bg-light">
+                <span><i class="fa-solid fa-book"></i> Delete subject</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"><i class="fa-solid fa-circle-xmark"></i></span>
+                </button>
+              </div>
+              <div class="modal-body text-center">
+                Delete this record?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
+                <button type="button" class="btn btn-danger btn-sm" id="confirmDelete"><i class="fas fa-check"></i> Confirm</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
-  </div>
 
-
- <?php include 'subject_add.php';  ?>
- <?php include 'footer.php'; ?>
-
-
-
+<?php require_once '../includes/footer.php'; ?>
 
 <script>
-    function lettersOnly(input) {
-      var regex = /[^a-z ]/gi;
-      input.value = input.value.replace(regex, "");
-    }
+  $(document).ready(function() {
+
+    $('#example1').on('click', '.delete-subject', function() {
+        var sub_ID = $(this).data('subject-id'); 
+        console.log("sub_ID:", sub_ID);
+        $('#deleteConfirmationModal').modal('show');
+
+        $('#confirmDelete').click(function() {
+            console.log("Confirm delete clicked. sub_ID:", sub_ID); // Log dept_ID before AJAX request
+            $.ajax({
+                type: 'POST',
+                url: '../includes/processes.php', // Your PHP file to handle deletion
+                data: { 
+                  action: 'DeleteSubjectForm', 
+                  sub_ID: sub_ID
+                }, // Send semester_ID to server
+                success: function(response) {
+                    console.log("Delete request response:", response); // Log response from server
+                    if (response.success) {
+                        Swal.fire({
+                            title: "Success",
+                            text: response.message,
+                            icon: "success",
+                            timer: 2500,
+                            timerProgressBar: true,
+                            showConfirmButton: true
+                        }).then(function() {
+                            // Redirect to academic_year.php after success
+                            window.location.href = "subject.php";
+                        });
+                        row.remove(); // Remove the deleted row from the table
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: response.message,
+                            icon: "error",
+                            timer: 2500,
+                            timerProgressBar: true,
+                            showConfirmButton: true
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+    
+});
+
 </script>

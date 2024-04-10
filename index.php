@@ -1,166 +1,159 @@
 <?php 
-
-    include 'header.php';
-    include 'login.php';
-
+  include 'navbar.php';
 ?>
 
-  <!-- ======= Hero Section ======= -->
-  <section id="hero">
-    <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+  <main class="main">
 
-      <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
 
-      <div class="carousel-inner" role="listbox">
+      <img src="assets/img/hero-bg.jpg" alt="" data-aos="fade-in">
 
-        <!-- Slide 1 -->
-        <div class="carousel-item active" style="background-image: url(assets-homepage/img/slide/dep.png)">
-          <div class="container">
-            <h2>Welcome to <span>TRHS</span></h2>
-            <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, iure.</p> -->
-            <!-- <a href="#" class="btn-get-started scrollto">Read More</a> -->
-          </div>
+      <div class="container">
+        <h2 data-aos="fade-up" data-aos-delay="100" class="">Empowering Education,<br>Shaping Tomorrow's Leaders</h2>
+        <p data-aos="fade-up" data-aos-delay="200">"We're a skilled team of developers dedicated to designing intuitive enrollment platforms tailored to your needs."</p>
+        <div class="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
+          <a href="login.php" class="btn-get-started">Begin Your Journey</a>
         </div>
-
-        <!-- Slide 2 -->
-        <!-- <div class="carousel-item" style="background-image: url(assets-homepage/img/slide/slide-2.jpg)">
-          <div class="container">
-            <h2>Welcome to <span>TRHS</span></h2>
-           
-          </div>
-        </div> -->
-
-        <!-- Slide 3 -->
-       <!--  <div class="carousel-item" style="background-image: url(assets-homepage/img/slide/slide-3.jpg)">
-          <div class="container">
-            <h2>Welcome to <span>TRHS</span></h2>
-           
-          </div>
-        </div> -->
-
       </div>
 
-      <!-- <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
-      </a>
 
-      <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
-        <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
-      </a> -->
+
+    </section><!-- /Hero Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+        <div class="container">
+
+    <div class="row gy-4">
+
+      <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
+        <img src="assets/img/about.jpg" class="img-fluid" alt="">
+      </div>
+
+      <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+        <h3>Embracing Opportunities for Growth</h3>
+        <p class="fst-italic">
+          Discover potential pathways for personal and professional development, fostering growth and innovation.
+        </p>
+        <ul>
+          <li><i class="bi bi-check-circle"></i> <span>Explore diverse learning opportunities to enhance skills and knowledge.</span></li>
+          <li><i class="bi bi-check-circle"></i> <span>Navigate challenges with resilience, gaining invaluable experience.</span></li>
+          <li><i class="bi bi-check-circle"></i> <span>Pursue excellence through continuous improvement and dedication.</span></li>
+        </ul>
+        <a href="#" class="read-more"><span>Learn More</span><i class="bi bi-arrow-right"></i></a>
+      </div>
 
     </div>
-  </section><!-- End Hero -->
 
-  <main id="main">
+  </div>
 
-    <!-- ======= About Us Section ======= -->
-    <!-- <section id="about" class="about">
-      <div class="container" data-aos="fade-up">
+</section>
+<!-- /About Section -->
 
-        <div class="section-title">
-          <h2>About Us</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-        </div>
+    <!-- Counts Section -->
+    <section id="counts" class="section counts">
 
-        <div class="row">
-          <div class="col-lg-6" data-aos="fade-right">
-            <img src="assets-homepage/img/about.jpg" class="img-fluid" alt="">
-          </div>
-          <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
-            <h3>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h3>
-            <p class="fst-italic">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua.
-            </p>
-            <ul>
-              <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-              <li><i class="bi bi-check-circle"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
-              <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
-            </ul>
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum
-            </p>
-          </div>
-        </div>
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-      </div>
-    </section>
- -->
+        <div class="row gy-4 d-flex justify-content-center">
 
- 
-    <!-- <section id="doctors" class="doctors section-bg">
-      <div class="container" data-aos="fade-up">
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <?php $tbl_enroll=$db->getEnrolledStudents(); ?>
+              <span data-purecounter-start="0" data-purecounter-end="<?= $tbl_enroll->num_rows > 0 ? $tbl_enroll->num_rows : "0"; ?>" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Student</p>
+            </div>
+          </div><!-- End Stats Item -->
 
-        <div class="section-title">
-          <h2>Therapist</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-        </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <?php $tbl_course=$db->getCourse(); ?>
+              <span data-purecounter-start="0" data-purecounter-end="<?= $tbl_course->num_rows > 0 ? $tbl_course->num_rows : "0"; ?>" data-purecounter-duration="1" class="purecounter"></span>
+              <p class="">Courses</p>
+            </div>
+          </div><!-- End Stats Item -->
 
-        <div class="row d-flex justify-content-center">
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-            <div class="member" data-aos="fade-up" data-aos-delay="100">
-              <div class="member-img">
-                <img src="assets-homepage/img/doctors/doctors-1.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Walter White</h4>
-                <span>Chief Medical Officer</span>
-              </div>
+          <!-- <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="42" data-purecounter-duration="1" class="purecounter"></span>
+              <p class="">Events</p>
             </div>
           </div>
 
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-            <div class="member" data-aos="fade-up" data-aos-delay="200">
-              <div class="member-img">
-                <img src="assets-homepage/img/doctors/doctors-2.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Anesthesiologist</span>
-              </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="24" data-purecounter-duration="1" class="purecounter"></span>
+              <p class="">Trainers</p>
             </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
-            <div class="member" data-aos="fade-up" data-aos-delay="300">
-              <div class="member-img">
-                <img src="assets-homepage/img/doctors/doctors-3.jpg" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>Cardiology</span>
-              </div>
-            </div>
-          </div>
+          </div> -->
 
         </div>
 
       </div>
-    </section> -->
 
+    </section><!-- /Counts Section -->
 
+    <!-- Why Us Section -->
+    <section id="why-us" class="section why-us">
+
+        <div class="container">
+
+    <div class="row gy-4">
+
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="why-box">
+          <h3>Why Opt for Our Solutions?</h3>
+          <p>
+            Discover the reasons behind choosing our products, tailored to meet your needs and exceed expectations.
+          </p>
+          <div class="text-center">
+            <a href="#" class="more-btn"><span>Explore More</span> <i class="bi bi-chevron-right"></i></a>
+          </div>
+        </div>
+      </div><!-- End Why Box -->
+
+      <div class="col-lg-8 d-flex align-items-stretch">
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
+
+          <div class="col-xl-4">
+            <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+              <i class="bi bi-clipboard-data"></i>
+              <h4>Efficiency in Data Management</h4>
+              <p>Streamline your operations with our efficient data management solutions, ensuring seamless processes.</p>
+            </div>
+          </div><!-- End Icon Box -->
+
+          <div class="col-xl-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+              <i class="bi bi-gem"></i>
+              <h4>Exceptional Quality Assurance</h4>
+              <p>Experience unparalleled quality assurance with our products, ensuring reliability and satisfaction.</p>
+            </div>
+          </div><!-- End Icon Box -->
+
+          <div class="col-xl-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+              <i class="bi bi-inboxes"></i>
+              <h4>Seamless Workflow Integration</h4>
+              <p>Integrate our solutions seamlessly into your workflow, enhancing productivity and efficiency.</p>
+            </div>
+          </div><!-- End Icon Box -->
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+  <!-- /Why Us Section -->
+
+    
+   
 
   </main>
 
-<?php include 'footer.php'; ?>
+<?php include 'footer_2.php'; ?>
